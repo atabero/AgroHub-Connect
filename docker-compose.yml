@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  producers-db:
+    image: postgres:16-alpine
+    container_name: agrohub_producers_db
+    environment:
+      POSTGRES_DB: agrohub_producers_db
+      POSTGRES_USER: agrohub_user
+      POSTGRES_PASSWORD: agrohub_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - producers_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agrohub_user -d agrohub_producers_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  catalog-db:
+    image: postgres:16-alpine
+    container_name: agrohub_catalog_db
+    environment:
+      POSTGRES_DB: agrohub_catalog_db
+      POSTGRES_USER: agrohub_user
+      POSTGRES_PASSWORD: agrohub_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - catalog_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agrohub_user -d agrohub_catalog_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  producers_db_data:
+  catalog_db_data:

@@ -26,7 +26,7 @@ Este primer MVP se centrará en la **definición de entidades, la creación de l
 
 Este proyecto es una oportunidad para aprender y aplicar diversas tecnologías y conceptos del ecosistema Java y desarrollo de sistemas distribuidos:
 
-* **Lenguaje:** Java 17+
+* **Lenguaje:** Java 21+
 * **Framework:** Spring Boot 3.x
 * **Arquitectura:** Microservicios
 * **Orquestación/Comunicación:** Spring Cloud (Eureka), REST APIs, y en futuras fases, colas de mensajes (Kafka/RabbitMQ).

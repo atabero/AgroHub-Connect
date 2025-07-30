@@ -1,6 +1,24 @@
 version: '3.8'
 
 services:
+  registry-server:
+    build:
+      context: ./agrohub-discovery-service
+      dockerfile: Dockerfile
+    container_name: eureka_server_container
+    ports:
+      - "8761:8761"
+    environment:
+      REGISTRY_URL: ${REGISTRY_URL}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - app_network
+      
   producers-db:
     image: postgres:16-alpine
     container_name: agrohub_producers_db
@@ -17,7 +35,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
+    networks:
+      - app_network
+      
   catalog-db:
     image: postgres:16-alpine
     container_name: agrohub_catalog_db
@@ -34,7 +54,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - app_network
 
 volumes:
   producers_db_data:
   catalog_db_data:
+
+networks:
+  app_network:
+    driver: bridge
